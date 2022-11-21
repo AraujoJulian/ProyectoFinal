@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/ProfileScreen';
 import NewPost from '../screens/NewPostScreen';
+import Posts from '../screens/Posts';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +13,7 @@ class TabNavigation extends Component{
             <Tab.Navigator>
                 <Tab.Screen name="Home" component={Home} />
                 <Tab.Screen name="Profile" component={Profile} />
-                <Tab.Screen name="NewPost" component={NewPost} />
+                <Tab.Screen name="NewPost" component={Posts} />
             </Tab.Navigator>
         )
     }
