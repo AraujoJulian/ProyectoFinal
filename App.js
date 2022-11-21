@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import Hola from './src/components/Hola/Hola';
 import { Text, View} from 'react-native';
-import MainNavigation from './src/navigation/MainNavigation'
+import StackNavigation from './src/navigation/StackNavigation';
+
 
 export default function App() {
   return (
-    <MainNavigation />
+    <StackNavigation/>
   );
 }
