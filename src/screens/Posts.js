@@ -1,13 +1,16 @@
-import { Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
 import { auth, db } from '.././firebase/config'
+import Camara from '../components/Camara'
 
 class Posts extends Component {
 
     constructor() {
         super()
         this.state = {
-            description: ''
+            description: '',
+            mostrarCamara: true,
+            fotoUrl:''
         }
     }
 
@@ -17,34 +20,57 @@ class Posts extends Component {
             createdAt: Date.now(),
             description: description,
             likes:[],
-            comments:[]
+            comments:[],
+            foto: this.state.fotoUrl
         })
         .then(resp => console.log('hizo el posteo'))
         .catch(err => console.log(err))
 
     }
+
+    cuandoSubaLaImagen(url){
+        this.setState({
+            mostrarCamara:false,
+            fotoUrl: url
+        })
+    }
+
     render() {
         return (
-            <View>
+            <View style = {styles.container}>
+            {
+                this.state.mostrarCamara ?
+                <Camara
+                cuandoSubaLaImagen = {(url)=> this.cuandoSubaLaImagen(url)}
+                /> :
+              <View>
                 <TextInput
                     keyboardType='default'
-                    onChangeText={text => this.setState({ description: text })}
-                    value={this.setState.description}
-                    //style={styles.input}
-                    placeholder='Descripcion'
+                    onChangeText={text => this.setState({description:text})}
+                    value={this.state.description}
+                    style={styles.input}
+                    placeholder='Deja tu descripcion'
                 />
-                <TouchableOpacity onPress={() => this.sendPost(this.state.description)}>
-                    <Text> Enviar post</Text>
+                <TouchableOpacity
+                onPress={()=> this.sendPost(this.state.description)}
+                >
+                    <Text>Enviar Post</Text>
                 </TouchableOpacity>
-            </View>
+              </View>  
+            }
+        </View>
         )
     }
 }
 
-/*const styles = StyleSheet.create({
-    input: {
-        borderWidth: 1
+const styles = StyleSheet.create({
+    container:{
+        flex:1
+    }, 
+    input:{
+        borderWidth:1,
+        height:48
     }
-})*/
+})
 
 export default Posts
