@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../screens/LoginScreen';
 import Register from '../screens/RegisterScreen';
 import TabNavigation from './TabNavigation';
+import Comments from '../screens/Comments';
 
 const Stack = createNativeStackNavigator()
 
@@ -15,6 +16,7 @@ class StackNavigation extends Component {
             <Stack.Screen name='Login' component={ Login } options={ { headerShown: false } } />
             <Stack.Screen name='Register' component={ Register } options={ { headerShown: false } } />
             <Stack.Screen name='TabNavigation' component={ TabNavigation } />
+            <Stack.Screen name='Comments' component={Comments} /> 
           </Stack.Navigator>
         </NavigationContainer>
       )

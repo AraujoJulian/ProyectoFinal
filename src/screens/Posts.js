@@ -11,20 +11,23 @@ class Posts extends Component {
         }
     }
 
-    sendPost(text) {
+    sendPost(description){
         db.collection('posts').add({
-            email: auth.currentUser.email,
+            owner:auth.currentUser.email,
             createdAt: Date.now(),
-            description: text,
-            likes: [],
-            comments: []
+            description: description,
+            likes:[],
+            comments:[]
         })
+        .then(resp => console.log('hizo el posteo'))
+        .catch(err => console.log(err))
+
     }
     render() {
         return (
             <View>
                 <TextInput
-                    keyboardType=''
+                    keyboardType='default'
                     onChangeText={text => this.setState({ description: text })}
                     value={this.setState.description}
                     //style={styles.input}
