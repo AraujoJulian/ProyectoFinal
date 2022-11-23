@@ -16,7 +16,7 @@ class Posts extends Component {
 
     sendPost(description){
         db.collection('posts').add({
-            owner:auth.currentUser.email,
+            email:auth.currentUser.email,
             createdAt: Date.now(),
             description: description,
             likes:[],
@@ -38,11 +38,7 @@ class Posts extends Component {
     render() {
         return (
             <View style = {styles.container}>
-            {
-                this.state.mostrarCamara ?
-                <Camara
-                cuandoSubaLaImagen = {(url)=> this.cuandoSubaLaImagen(url)}
-                /> :
+           
               <View>
                 <TextInput
                     keyboardType='default'
@@ -57,7 +53,7 @@ class Posts extends Component {
                     <Text>Enviar Post</Text>
                 </TouchableOpacity>
               </View>  
-            }
+            
         </View>
         )
     }

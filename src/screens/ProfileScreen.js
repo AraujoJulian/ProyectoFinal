@@ -33,7 +33,7 @@ class Profile extends Component {
                     })
                 this.setState({
                     posteos: posts,
-                })
+                },()=>console.log(this.state))
                 })
             }
         )
@@ -52,8 +52,7 @@ class Profile extends Component {
                     usuario: usuario[0],
                     username: usuario[0].data.userName,
                     bio:usuario[0].data.miniBio,
-                    mail:usuario[0].data.email,
-                })
+                },()=>console.log(this.state))
                 })
             }
         )
@@ -64,7 +63,7 @@ class Profile extends Component {
                     <Text>My Profile</Text>
                     <View>
                         <Text>{this.state.username}</Text>
-                        <Text>{this.state.mail}</Text>
+                        <Text>{auth.currentUser.email}</Text>
                         <Text>Posts: {this.state.posteos.length}</Text>
                         <Text>{this.state.bio}</Text>
                     </View>
