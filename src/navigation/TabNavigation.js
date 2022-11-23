@@ -4,11 +4,9 @@ import Home from '../screens/Home';
 import Profile from '../screens/ProfileScreen';
 import Posts from '../screens/Posts';
 import HomeNavigation from './HomeNavigation';
+const Tab = createBottomTabNavigator()
 
-const Tab = createBottomTabNavigator();
-
-class TabNavigation extends Component{
-    render(){
+export default function TabNavigation(){
         return(
             <Tab.Navigator>
                 <Tab.Screen name="HomeNavigation" component={HomeNavigation}/>
@@ -17,6 +15,3 @@ class TabNavigation extends Component{
             </Tab.Navigator>
         )
     }
-}
-
-export default TabNavigation;

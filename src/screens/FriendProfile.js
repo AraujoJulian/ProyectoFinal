@@ -6,7 +6,7 @@ export default class FriendProfile extends Component {
         super(props)
     }
   render() {
-    console.log(this.props);
+    console.log(this.props)
     return (
       <View>
         <Text>FriendProfile</Text>
