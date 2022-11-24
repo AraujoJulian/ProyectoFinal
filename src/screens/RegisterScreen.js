@@ -15,14 +15,14 @@ class Register extends Component {
         }
     }
 
-    register(email, password){
+    register(email, password, userName, miniBio){
         auth.createUserWithEmailAndPassword(email, password)
         .then(() => {
             return(
                 db.collection('users').add({
-                    email: this.state.email,
-                    userName: this.state.userName,
-                    miniBio: this.state.miniBio,
+                    email: email,
+                    userName: userName,
+                    miniBio: miniBio,
                     createdAt: Date.now()
                 })
             )
@@ -45,9 +45,15 @@ class Register extends Component {
                 <TextInput placeholder='UserName' keyboardType='default' onChangeText={ (text) => this.setState({userName:text})} value={this.state.userName} />
                 <TextInput placeholder='MiniBio' keyboardType='default' onChangeText={ (text) => this.setState({miniBio:text})} value={this.state.miniBio} />
                 {this.state.error?<Text>{this.state.error}</Text>:''}
-                <TouchableOpacity onPress={() => this.register(this.state.email, this.state.password)}>
+                {this.state.email == '' || this.state.password == '' || this.state.userName == '' ? 
+                    <TouchableOpacity>
+                        <Text> Registrar </Text>
+                    </TouchableOpacity>
+                    :
+                <TouchableOpacity onPress={() => this.register(this.state.email, this.state.password, this.state.userName, this.state.miniBio)}>
                         <Text> Registrar </Text>
                 </TouchableOpacity>
+                }
                 <Text onPress={ () => this.props.navigation.navigate('Login')} >¿Ya tienes cuenta? Incia Sesión</Text>
             </View>
         )
