@@ -9,13 +9,13 @@ class Buscador extends Component{
             buscar: '',
             usuarios: [],
             resultadoBuscar: [],
-            buscando: false
         }
     }
 
     componentDidMount(){
         db.collection('users').onSnapshot(
             docs => {
+                
                 let usuarios = [];
                 docs.forEach(doc => {
                     usuarios.push({
@@ -23,32 +23,19 @@ class Buscador extends Component{
                         data: doc.data()
                     })
                 })
-                this.setState({usuarios: usuarios})
+                this.setState({
+                    usuarios: usuarios,
+                },()=>console.log(this.state))
             }
         )
     }
 
-    buscador(text){
-        if( text === '') {
-            this.setState({
-                resultadoBuscar: [],
-                buscar: '',
-                buscando: false
-            })
-        }else{
-            let filtrado = this.state.usuarios.filter((usuarios) => usuarios.data.userName.toLowerCase().includes(text.toLowerCase()))
-            this.setState({
-                resultadoBuscar: filtrado,
-                buscar: text,
-                buscando: true
-            })
-        }
-    }
-
-    perfil(item){
-        if(item.data.userName !== auth.currentUser.userName){
-            this.props.navigation.navigate('FriendProfile', {userName: item.data.userName})}
-        else{this.props.navigation.navigate('ProfileScreen')}
+    buscar(text){
+        let result = this.state.usuarios.filter((unUsuario) => {
+            return unUsuario.data.userName.toLowerCase().includes(text.toLowerCase())
+        })
+        console.log(result);
+        this.setState({result: result, busqueda: text});
     }
 
     render(){
@@ -56,11 +43,32 @@ class Buscador extends Component{
             <View>
                 <View>
                     <Text>Buscador</Text>
-                    <TextInput placeholder="Buscar" keyboardType="default" onChangeText={text => this.buscador(text)} value= {this.state.buscar}/>
+                    <TextInput 
+                    placeholder= 'Search' 
+                    onChangeText= {text => this.buscar(text)} 
+                    value= {this.state.busqueda}
+                />
+
                 </View>
-                {this.state.resultadoBuscar.length === 0 && this.state.buscando === true ? <Text>No hay se encontro ese nombre de usuario</Text> 
-                : <FlatList data={this.state.resultadoBuscar} keyExtractor={usuarios => usuarios.id.toString()} renderItem={(item)=> <Text onPress={() => this.perfil(item)}>{item.data.userName}</Text>}
-                />}
+                <FlatList
+                        data={this.state.result}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={({item}) => 
+                        <TouchableOpacity onPress={()=> this.props.navigation.navigate(
+                            'HomeNavigation',
+                            {
+                              screen: 'FriendProfile',
+                              params: {
+                                mail: item.data.email
+                              }
+                            }
+                          )}>
+                          <Text>{item.data.email}</Text>
+                          </TouchableOpacity>
+                        
+                        } 
+                    />
+
             </View>
         )
     }
