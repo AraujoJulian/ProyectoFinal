@@ -11,7 +11,6 @@ class Register extends Component {
             password:'',
             userName: '',
             miniBio: '',
-            foto: '',
         }
     }
 

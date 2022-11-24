@@ -15,17 +15,7 @@ class Profile extends Component {
 
    
   componentDidMount(){
-    db.collection('posts').where('email','==',auth.currentUser.email).onSnapshot(docs => {
-      let posts = []
-      docs.forEach(doc => {
-        posts.push({
-          id: doc.id,
-          data: doc.data()
-        })
-        this.setState({        posteos: posts,
-        }, () => console.log(this.state))
-      })
-       })
+    this.buscarPosteos()
       db.collection('users').where('email','==',auth.currentUser.email).onSnapshot(docs => {
         let user = []
         docs.forEach(doc => {
@@ -45,9 +35,28 @@ class Profile extends Component {
     })
   }
 
+  buscarPosteos(){
+    db.collection('posts').where('email','==',auth.currentUser.email).onSnapshot(docs => {
+      let posts = []
+      docs.forEach(doc => {
+        posts.push({
+          id: doc.id,
+          data: doc.data()
+        })
+        this.setState({        posteos: posts,
+        }, () => console.log(this.state))
+      })
+       })
+  }
+
+  borrarPost(id){
+    db.collection('posts').doc(id).delete()
+    this.buscarPosteos()
+  }
+
   logOut(){
     auth.signOut()
-    this.props.navigate.navigation('Login')
+    this.props.navigation.navigate('Login')
   }
 
     render(){
@@ -63,7 +72,7 @@ class Profile extends Component {
                     <FlatList
                     data={this.state.posteos}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <Post navigation={this.props.navigation} id={item.id} data={item.data} />}
+                    renderItem={({ item }) => <Post navigation={this.props.navigation} id={item.id} data={item.data} borrar={(id) => this.borrarPost(id)} />}
                     />
                     <TouchableOpacity onPress={() => this.logOut()}><Text>Cerrar Sesión</Text>
                     </TouchableOpacity>

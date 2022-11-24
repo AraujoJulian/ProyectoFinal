@@ -5,14 +5,13 @@ import { auth, db } from '.././firebase/config'
 import firebase from 'firebase'
 
 class Post extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            likesCount: props.data.likes?.length,
-            commentCount: props.data.comments?.length,
-            isMyLike: false
-        }
+  constructor(props) {
+      super(props)
+      this.state = {
+          likesCount: props.data.likes?.length,
+          commentCount: props.data.comments?.length,
+          isMyLike: false
+      }
     }
     componentDidMount(){
       console.log(this.props);
@@ -72,6 +71,9 @@ class Post extends Component {
         })
         .catch(e => console.log(e))
       }
+
+
+
     render() {
         console.log(this.props)
         return (
@@ -110,7 +112,13 @@ class Post extends Component {
                 {id:this.props.id}
                 )}>
                 <Text>Agregar comentario</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> 
+            </View>
+            <View>
+              {this.props.borrar ?
+              <TouchableOpacity onPress={() => this.props.borrar(this.props.id) }>
+                <Text>Eliminar Posteo</Text>
+              </TouchableOpacity> : '' }
             </View>
             
           </View>
