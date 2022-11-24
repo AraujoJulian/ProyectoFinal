@@ -1,8 +1,9 @@
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import {FontAwesome} from '@expo/vector-icons'
 import { auth, db } from '.././firebase/config'
 import firebase from 'firebase'
+import { StyleSheet } from 'react-native-web'
 
 class Post extends Component {
   constructor(props) {
@@ -91,6 +92,11 @@ class Post extends Component {
             </TouchableOpacity>
 
             <Text>{this.state.userName}</Text>
+            <Image 
+              style={styles.image}
+                source={{uri: this.props.data.image}}
+                resizeMode='contain' 
+              />
             <Text>{this.props.data.description}</Text>
             <View>
             <Text>{this.state.likesCount}</Text>  
@@ -125,5 +131,16 @@ class Post extends Component {
         )
       }
     }
+
+    const styles = StyleSheet.create({
+      image: {
+          height: 500,
+          width:350,
+          alignSelf:'center',
+          borderRadius: 20,
+          overflow: 'hidden',
+          margin:10
+      }
+    })
 
 export default Post

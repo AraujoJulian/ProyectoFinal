@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { db } from '.././firebase/config'
 import Post from '../components/Post'
+import { StyleSheet } from 'react-native-web'
 
 class Home extends Component {
   constructor() {
@@ -34,7 +35,7 @@ class Home extends Component {
         <View>
           <Text>Estas en la Home</Text>
         </View>
-        <View>
+        <View style={styles.lista}>
           <FlatList
             data={this.state.allPosts}
             keyExtractor={item => item.id.toString()}
@@ -45,5 +46,11 @@ class Home extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  lista: {
+    flex: 1,
+  }
+})
 
 export default Home;
