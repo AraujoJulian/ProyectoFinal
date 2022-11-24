@@ -6,9 +6,9 @@ class Buscador extends Component{
     constructor(){
         super()
         this.state = {
-            busqueda: '',
+            buscar: '',
             usuarios: [],
-            resultado: [],
+            resultadoBuscar: [],
             buscando: false
         }
     }
@@ -31,15 +31,15 @@ class Buscador extends Component{
     buscador(text){
         if( text === '') {
             this.setState({
-                resultado: [],
-                busqueda: '',
+                resultadoBuscar: [],
+                buscar: '',
                 buscando: false
             })
         }else{
             let filtrado = this.state.usuarios.filter((usuarios) => usuarios.data.userName.toLowerCase().includes(text.toLowerCase()))
             this.setState({
-                resultado: filtrado,
-                busqueda: text,
+                resultadoBuscar: filtrado,
+                buscar: text,
                 buscando: true
             })
         }
@@ -56,10 +56,10 @@ class Buscador extends Component{
             <View>
                 <View>
                     <Text>Buscador</Text>
-                    <TextInput placeholder="Buscar" keyboardType="default" onChangeText={text => this.buscador(text)} value= {this.state.busqueda}/>
+                    <TextInput placeholder="Buscar" keyboardType="default" onChangeText={text => this.buscador(text)} value= {this.state.buscar}/>
                 </View>
-                {this.state.resultado.length === 0 && this.state.buscando === true ? <Text>No hay se encontro ese nombre de usuario</Text> 
-                : <FlatList data={this.state.resultado} keyExtractor={usuarios => usuarios.id.toString()} renderItem={(item)=> <Text onPress={() => this.perfil(item)}>{item.data.userName}</Text>}
+                {this.state.resultadoBuscar.length === 0 && this.state.buscando === true ? <Text>No hay se encontro ese nombre de usuario</Text> 
+                : <FlatList data={this.state.resultadoBuscar} keyExtractor={usuarios => usuarios.id.toString()} renderItem={(item)=> <Text onPress={() => this.perfil(item)}>{item.data.userName}</Text>}
                 />}
             </View>
         )
