@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity,StyleSheet,Image} from 'react-native';
-import { ActivityIndicator, FlatList } from 'react-native-web';
+import { View, Text} from 'react-native';
+import { FlatList } from 'react-native-web';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
 
