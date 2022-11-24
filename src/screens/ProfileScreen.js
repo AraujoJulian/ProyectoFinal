@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text} from 'react-native';
-import { FlatList } from 'react-native-web';
+import { FlatList, TouchableOpacity } from 'react-native-web';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
 
@@ -44,6 +44,12 @@ class Profile extends Component {
         })
     })
   }
+
+  logOut(){
+    auth.signOut()
+    this.props.navigate.navigation('Login')
+  }
+
     render(){
         return(
             <View> 
@@ -58,7 +64,9 @@ class Profile extends Component {
                     data={this.state.posteos}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <Post navigation={this.props.navigation} id={item.id} data={item.data} />}
-          />
+                    />
+                    <TouchableOpacity onPress={() => this.logOut()}><Text>Cerrar Sesión</Text>
+                    </TouchableOpacity>
             </View>
         )
     }
