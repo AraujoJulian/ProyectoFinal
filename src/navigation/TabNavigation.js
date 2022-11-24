@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator()
 export default function TabNavigation(){
         return(
             <Tab.Navigator>
-                <Tab.Screen name="HomeNavigation" component={HomeNavigation}/>
+                <Tab.Screen name="HomeNavigation" component={HomeNavigation} options= {{headerShown: false }}/>
                 <Tab.Screen name="Profile" component={Profile} />
                 <Tab.Screen name="NewPost" component={Posts} />
             </Tab.Navigator>
