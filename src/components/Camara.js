@@ -1,25 +1,26 @@
-import { Text, View, StyleSheet, Image } from 'react-native'
 import React, { Component } from 'react'
+import { Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native'
 import {Camera} from 'expo-camera'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import {storage} from '.././firebase/config'
-
+import {storage} from "../firebase/config"
 
 class Camara extends Component {
-    constructor(){
-        super()
-        this.metodosCamara = null
+    constructor(props){
+        super(props)
+
         this.state = {
+            permisos: false,
             mostrarCamara:false,
             fotoUri:''
         }
+        this.metodosCamara = ""
     }
+
 
     componentDidMount(){
         Camera.requestCameraPermissionsAsync()
         .then(()=> {
             this.setState({
-                mostrarCamara : true
+                permisos : true
             })
         })
         .catch(err => console.log(err))
@@ -36,57 +37,62 @@ class Camara extends Component {
 
     aceptarImagen(){
         fetch(this.state.fotoUri)
-        .then(imagenEnBinario => imagenEnBinario.blob())
+        .then(res => res.blob())
         .then(imagen => {
-            const ref = storage.ref(`fotos/${Date.now()}.jpg`)
+            const ref = storage.ref(`photos/${Date.now()}.jpg`)
             ref.put(imagen)
             .then(()=> {
                 ref.getDownloadURL()
-                .then((url)=> this.props.cuandoSubaLaImagen(url))
+                .then((url)=> this.props.onImageUpload(url))
                 .catch(err => console.log(err))
             })
-
         })
         .catch(err => console.log(err))
     }
 
     rechazarImagen(){
-
+        this.setState({
+            fotoUri: "",
+            mostrarCamara: true
+        })
     }
 
   render() {
     return (
       <View style={styles.container}>
         {
+            this.state.permisos ?
             this.state.mostrarCamara ?
-            <>
+            <View stlye={styles.camarabody}>
                 <Camera
-                style={styles.camarabody}
-                type={Camera.Constants.Type.back}
-                ref={metodos => this.metodosCamara = metodos}
-                />
-                <TouchableOpacity onPress={ () => this.tomarFoto()}>
-                    <Text>tomar foto</Text>
-                </TouchableOpacity>
-            </>
-            : this.state.mostrarCamara === false && this.state.fotoUri != '' ?
+            style={styles.camarabody}
+            type={Camera.Constants.Type.front}
+            ref={metodosCamara => this.metodosCamara = metodosCamara}
+            />
+            <TouchableOpacity onPress={ () => this.tomarFoto()}>
+                <Text>tomar foto</Text>
+            </TouchableOpacity>
+            </View>  
+            : 
             <View>
                 <Image
                 source={{uri: this.state.fotoUri}}
-                style={styles.image}
+                style={styles.preview}
+                resizeMode = "cover"
                 />
+                <TouchableOpacity  onPress={()=> this.rechazarImagen()}>
+                    <Text>
+                        Rechazar imagen
+                    </Text>
                 <TouchableOpacity onPress={()=> this.aceptarImagen()}>
                     <Text>
                         Aceptar imagen
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={()=> this.rechazarImagen()}>
-                    <Text>
-                        Rechazar imagen
-                    </Text>
                 </TouchableOpacity>
             </View>
-            : <Text>No me haz dado permisos para mostrar la foto</Text>
+            : 
+            <Text>No me haz dado permisos para mostrar la foto</Text>
         }
       </View>
     )
@@ -98,10 +104,12 @@ const styles = StyleSheet.create({
         flex:1
     },
     camarabody:{
-        height:500
+        height: "80vh",
+        width: "80vh"
     },
-    image:{
-        height:200
+    preview:{
+        height: "100vh",
+        width: "100vh"
     }
 })
 
