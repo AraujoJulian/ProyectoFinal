@@ -33,9 +33,6 @@ class Register extends Component {
         })
     }
 
-    // searchImage(){
-    // }
-
     render(){
         return(
             <View>
