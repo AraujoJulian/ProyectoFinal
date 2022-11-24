@@ -15,6 +15,7 @@ class Post extends Component {
         }
     }
     componentDidMount(){
+      console.log(this.props);
       this.obtenerUsuario()
         let myLike = this.props.data.likes?.includes(auth.currentUser.email)
         if(myLike){
@@ -80,7 +81,7 @@ class Post extends Component {
               {
                 screen: 'FriendProfile',
                 params: {
-                  email: this.props.data.email
+                  mail: this.props.data.email
                 }
               }
             )}>
