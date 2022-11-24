@@ -15,7 +15,7 @@ class StackNavigation extends Component {
           <Stack.Navigator>
             <Stack.Screen name='Login' component={ Login } options={ { headerShown: false } } />
             <Stack.Screen name='Register' component={ Register } options={ { headerShown: false } } />
-            <Stack.Screen name='TabNavigation' component={ TabNavigation } />
+            <Stack.Screen name='TabNavigation' component={ TabNavigation } options= {{headerShown: false }} />
             <Stack.Screen name='Comments' component={Comments} /> 
           </Stack.Navigator>
         </NavigationContainer>

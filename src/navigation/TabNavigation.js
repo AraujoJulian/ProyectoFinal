@@ -3,19 +3,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/ProfileScreen';
 import Posts from '../screens/Posts';
+import HomeNavigation from './HomeNavigation';
+const Tab = createBottomTabNavigator()
 
-const Tab = createBottomTabNavigator();
-
-class TabNavigation extends Component{
-    render(){
+export default function TabNavigation(){
         return(
             <Tab.Navigator>
-                <Tab.Screen name="Home" component={Home} />
+                <Tab.Screen name="HomeNavigation" component={HomeNavigation} options= {{headerShown: false }}/>
                 <Tab.Screen name="Profile" component={Profile} />
                 <Tab.Screen name="NewPost" component={Posts} />
             </Tab.Navigator>
         )
     }
-}
-
-export default TabNavigation;

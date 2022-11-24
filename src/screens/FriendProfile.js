@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text} from 'react-native';
-import { FlatList } from 'react-native-web';
+import { View, Text, TextInput, TouchableOpacity,StyleSheet,Image} from 'react-native';
+import { ActivityIndicator, FlatList } from 'react-native-web';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
 
-class Profile extends Component {
+class FriendProfile extends Component {
     constructor(){
         super()
         this.state = {
@@ -15,7 +15,8 @@ class Profile extends Component {
 
    
   componentDidMount(){
-    db.collection('posts').where('email','==',auth.currentUser.email).onSnapshot(docs => {
+    console.log(this.props);
+    db.collection('posts').where('email','==',this.props.route.params.mail).onSnapshot(docs => {
       let posts = []
       docs.forEach(doc => {
         posts.push({
@@ -26,7 +27,7 @@ class Profile extends Component {
         }, () => console.log(this.state))
       })
        })
-      db.collection('users').where('email','==',auth.currentUser.email).onSnapshot(docs => {
+      db.collection('users').where('email','==',this.props.route.params.mail).onSnapshot(docs => {
         let user = []
         docs.forEach(doc => {
           user.push({
@@ -65,4 +66,4 @@ class Profile extends Component {
     
 }
 
-export default Profile;
+export default FriendProfile;

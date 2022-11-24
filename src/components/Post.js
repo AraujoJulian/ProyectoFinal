@@ -9,20 +9,37 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            likesCount: props.data.likes.length,
-            commentCount: props.data.comments.length,
+            likesCount: props.data.likes?.length,
+            commentCount: props.data.comments?.length,
             isMyLike: false
         }
     }
     componentDidMount(){
-        let myLike = this.props.data.likes.includes(auth.currentUser.email)
+      console.log(this.props);
+      this.obtenerUsuario()
+        let myLike = this.props.data.likes?.includes(auth.currentUser.email)
         if(myLike){
           this.setState({
             isMyLike:true
           })
         }
       }
-  
+      obtenerUsuario(){
+        db.collection('users').where('email', '==', this.props.data.email).onSnapshot(
+            docs =>{
+                let usuario = [];
+                docs.forEach (doc => {
+                    usuario.push({
+                        id: doc.id,
+                        data: doc.data()
+                    })
+                this.setState({
+                    userName: usuario[0].data.userName,
+                },()=>console.log(this.state))
+            }
+        )
+    }
+        )}
       like(){
         db
         .collection('posts')
@@ -59,6 +76,19 @@ class Post extends Component {
         console.log(this.props)
         return (
           <View>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate(
+              'HomeNavigation',
+              {
+                screen: 'FriendProfile',
+                params: {
+                  mail: this.props.data.email
+                }
+              }
+            )}>
+            <Text>{this.props.data.email}</Text>
+            </TouchableOpacity>
+
+            <Text>{this.state.userName}</Text>
             <Text>{this.props.data.description}</Text>
             <View>
             <Text>{this.state.likesCount}</Text>  
@@ -88,4 +118,4 @@ class Post extends Component {
       }
     }
 
-export default Post 
+export default Post
