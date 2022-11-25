@@ -9,7 +9,7 @@ class Camara extends Component {
 
         this.state = {
             permisos: false,
-            mostrarCamara:false,
+            mostrarCamara:true,
             fotoUri:''
         }
         this.metodosCamara = ""
@@ -20,7 +20,8 @@ class Camara extends Component {
         Camera.requestCameraPermissionsAsync()
         .then(()=> {
             this.setState({
-                permisos : true
+                permisos : true,
+                mostrarCamara:true
             })
         })
         .catch(err => console.log(err))
@@ -104,8 +105,7 @@ const styles = StyleSheet.create({
         flex:1
     },
     camarabody:{
-        height: "80vh",
-        width: "80vh"
+        height: "100%"
     },
     preview:{
         height: "100vh",

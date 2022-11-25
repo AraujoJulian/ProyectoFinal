@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
     },
     form:{
         borderRadius: 10,
-        alignSelf: "center"
+        alignSelf: "center",
+        flex:1
     },
     input: {
         alignSelf: 'center',
