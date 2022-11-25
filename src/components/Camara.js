@@ -65,7 +65,7 @@ class Camara extends Component {
                 this.state.mostrarCamara ?
                 <View stlye={styles.camarabody}>
                     <TouchableOpacity onPress={ () => this.tomarFoto()}>
-                        <Text>tomar foto</Text>
+                        <Text>Tomar foto</Text>
                     </TouchableOpacity>
                         <Camera
                     style={styles.camarabody}
