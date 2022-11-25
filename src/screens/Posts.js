@@ -21,11 +21,21 @@ class Posts extends Component {
             email:auth.currentUser.email,
             createdAt: Date.now(),
             description: description,
-            likes:this.states.likes,
-            comments:this.state.comentarios,
+            likes:this.state.likes,
+            comment:this.state.comments,
             foto: this.state.fotoUrl
         })
-        .then(resp => console.log('hizo el posteo'))
+        .then(resp => 
+           this.setState({
+            email:"",
+            createdAt: "",
+            description: "",
+            likes:[],
+            comments:[],
+            foto: ""
+           }
+           ) 
+           )
         .catch(err => console.log(err))
 
     }
@@ -49,13 +59,13 @@ class Posts extends Component {
             :
             <View>
                  <View>
-<TextInput
-    keyboardType='default'
-    onChangeText={text => this.setState({description:text})}
-    value={this.state.description}
-    style={styles.input}
-    placeholder='Deja tu descripcion'
-/>
+        <TextInput
+            keyboardType='default'
+            onChangeText={text => this.setState({description:text})}
+            value={this.state.description}
+            style={styles.input}
+            placeholder='Deja tu descripcion'
+        />
 
                 <TouchableOpacity
                 onPress={()=> this.sendPost(this.state.description)}

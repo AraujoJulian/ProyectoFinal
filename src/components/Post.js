@@ -94,7 +94,7 @@ class Post extends Component {
             <Text>{this.state.userName}</Text>
             <Image 
               style={styles.image}
-                source={{uri: this.props.data.image}}
+                source={{uri: this.props.data.foto}}
                 resizeMode='contain' 
               />
             <Text>{this.props.data.description}</Text>

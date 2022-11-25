@@ -21,7 +21,6 @@ class Camara extends Component {
         .then(()=> {
             this.setState({
                 permisos : true,
-                mostrarCamara:true
             })
         })
         .catch(err => console.log(err))
@@ -63,34 +62,34 @@ class Camara extends Component {
       <View style={styles.container}>
         {
             this.state.permisos ?
-            this.state.mostrarCamara ?
-            <View stlye={styles.camarabody}>
-                <Camera
-            style={styles.camarabody}
-            type={Camera.Constants.Type.front}
-            ref={metodosCamara => this.metodosCamara = metodosCamara}
-            />
-            <TouchableOpacity onPress={ () => this.tomarFoto()}>
-                <Text>tomar foto</Text>
-            </TouchableOpacity>
-            </View>  
+                this.state.mostrarCamara ?
+                <View stlye={styles.camarabody}>
+                    <TouchableOpacity onPress={ () => this.tomarFoto()}>
+                        <Text>tomar foto</Text>
+                    </TouchableOpacity>
+                        <Camera
+                    style={styles.camarabody}
+                    type={Camera.Constants.Type.back}
+                    ref={metodosCamara => this.metodosCamara = metodosCamara}
+                    />
+                </View>  
             : 
             <View>
-                <Image
-                source={{uri: this.state.fotoUri}}
-                style={styles.preview}
-                resizeMode = "cover"
-                />
                 <TouchableOpacity  onPress={()=> this.rechazarImagen()}>
                     <Text>
                         Rechazar imagen
                     </Text>
+                    </TouchableOpacity>
                 <TouchableOpacity onPress={()=> this.aceptarImagen()}>
                     <Text>
                         Aceptar imagen
                     </Text>
                 </TouchableOpacity>
-                </TouchableOpacity>
+                <Image
+                source={{uri: this.state.fotoUri}}
+                style={styles.preview}
+                resizeMode = "cover"
+                />
             </View>
             : 
             <Text>No me haz dado permisos para mostrar la foto</Text>
@@ -105,7 +104,8 @@ const styles = StyleSheet.create({
         flex:1
     },
     camarabody:{
-        height: "100%"
+        height: "125vh",
+        width: "125vh"
     },
     preview:{
         height: "100vh",

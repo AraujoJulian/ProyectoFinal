@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text} from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-web';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity} from 'react-native';
 import { db, auth } from '../firebase/config';
 import Post from '../components/Post';
 
@@ -10,12 +9,15 @@ class Profile extends Component {
         this.state = {
             posteos: [],
             user: [],
+            username: "",
+            bio: "",
+            foto: ""
         }
     }
 
    
   componentDidMount(){
-    this.buscarPosteos()
+   
       db.collection('users').where('email','==',auth.currentUser.email).onSnapshot(docs => {
         let user = []
         docs.forEach(doc => {
@@ -24,16 +26,35 @@ class Profile extends Component {
             data: doc.data()
           })
       this.setState ({
-        user: user[0],
+        user: user[0].data,
         username: user[0].data.userName,
         bio: user[0].data.miniBio,
-        email: user[0].data.email
+        email: user[0].data.email,
+        foto: user[0].data.foto
         },()=> {
             console.log(this.state)
         })
         })
     })
-  }
+    db.collection('posteos').where("email", "==", auth.currentUser.email).onSnapshot(
+      docs => {
+          let posteos = []
+          docs.forEach(doc => {
+              posteos.push({
+                  data: doc.data(),
+                  id: doc.id
+              })
+          })
+          this.setState({
+              posteos: posteos
+          })
+      }
+  
+ 
+
+)
+}
+
 
   buscarPosteos(){
     db.collection('posts').where('email','==',auth.currentUser.email).onSnapshot(docs => {
@@ -63,6 +84,21 @@ class Profile extends Component {
         return(
             <View> 
                     <Text>My Profile</Text>
+                    {
+                            this.state.user.foto != '' ?
+                                <Image
+                                    style={styles.foto}
+                                    source={{ uri: this.state.user.foto}}
+                                    resizeMode='contain'
+                                />
+                                :
+                                <Image
+                                    style={styles.foto}
+                                    source={require('../../assets/icon.png')}
+                                    resizeMode='contain'
+                                />
+
+                        }
                     <View>
                         <Text>{this.state.username}</Text>
                         <Text>{this.state.email}</Text>
@@ -81,5 +117,5 @@ class Profile extends Component {
     }
     
 }
-
+const styles = StyleSheet.create({foto: { height: 115, width: 115, marginLeft: 14 },})
 export default Profile;
